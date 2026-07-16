@@ -7,7 +7,8 @@
 //   - Other static assets (images/fonts/libs): cache-first with bg refresh.
 //   - API / non-GET: never cached.
 // Bump CACHE_NAME whenever the precache list or SW logic changes.
-const CACHE_NAME = 'odysseus-v344';
+// zyanyx-custom: bumped for the Zyanyx rebrand so old-brand caches purge.
+const CACHE_NAME = 'zyanyx-v345';
 
 // Core shell precached on install so repeat opens are instant without any
 // network wait. Keep this list in sync with the <script type="module"> tags
