@@ -1,0 +1,8 @@
+# Zyanyx: mount the shared memory store so the reference MCP memory server
+# inside this container reads/writes the same file as jarvis on the host.
+# Host file:      D:\Github\Zyanyx\mcp\memory\zyanyx-memory.json
+# Container path: /zyanyx-memory/zyanyx-memory.json
+services:
+  odysseus:
+    volumes:
+      - D:/Github/Zyanyx/mcp/memory:/zyanyx-memory
