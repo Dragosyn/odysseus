@@ -2083,6 +2083,12 @@ import { wireArrowUpRecall, getLastUserMessageFromChatHistory } from './composer
                   if (_liveHdr) _liveHdr.dataset.thinkingId = _thinkId;
                   if (_liveThinkContent) _liveThinkContent.id = _thinkId;
                   if (_liveThinkToggle) _liveThinkToggle.id = _thinkId + '-toggle';
+                  // Collapse the finished thinking panel by default so the reply
+                  // isn't buried under lengthy reasoning. Matches the persisted /
+                  // reload render (markdown.js creates it collapsed); the full
+                  // reasoning stays one click away via the header. (zyanyx-custom)
+                  if (_liveThinkContent) _liveThinkContent.classList.remove('expanded');
+                  if (_liveThinkToggle) _liveThinkToggle.classList.remove('expanded');
 
                   // Append a container for the reply text that follows thinking
                   var _streamEl = _liveThinkSection ? _liveThinkSection.parentElement : roundHolder.querySelector('.stream-content');
