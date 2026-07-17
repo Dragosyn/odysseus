@@ -398,11 +398,24 @@ class ToolIndex:
         # different model and returns its answer. ask_teacher escalates
         # to the configured teacher. (second_opinion was removed.)
         frozenset({"ask gpt", "ask claude", "ask gemini", "ask deepseek",
-                   "ask minimax", "ask qwen", "ask the", "ask another model",
+                   "ask minimax", "ask qwen", "ask another model",
                    "what does", "what would", "second opinion", "other model",
                    "different model", "compare answers", "compare models",
-                   "delegate to", "have model"}):
+                   "have model"}):
             {"chat_with_model", "ask_teacher", "list_models"},
+        # Zyanyx dispatcher — delegate a job to a specialist agent (researcher /
+        # scribe / coder) via the zyanyx-dispatch MCP server. Force-included:
+        # these rank below Odysseus's native research/vault tools in embedding
+        # retrieval, so without this the team never surfaces (zyanyx-custom).
+        frozenset({"delegate", "delegate to", "delegate this", "assign to",
+                   "assign this", "hand off", "hand this to", "your team",
+                   "the team", "your agents", "your specialists", "the specialist",
+                   "your researcher", "the researcher", "have researcher",
+                   "your coder", "the coder", "have coder",
+                   "your scribe", "the scribe", "have scribe",
+                   "researcher look", "researcher find", "coder write",
+                   "list agents", "which agents", "what agents"}):
+            {"mcp__zdispatch__assign_job", "mcp__zdispatch__list_agents"},
         # Deep research intent (incl. common typo "reserach")
         frozenset({"web search", "search the web", "search online", "look up",
                    "find info online", "find information online",
