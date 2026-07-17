@@ -645,6 +645,12 @@ def _build_ollama_payload(
         payload["options"] = options
     if tools:
         payload["tools"] = tools
+    # Parity with the OpenAI-compat branch in stream_llm: thinking models
+    # (qwen3, gemma4, …) on Ollama's native /api/chat swallow tool calls
+    # inside <think> blocks, so suppress thinking here too. Ollama /api/chat
+    # accepts "think": false as a top-level field. (zyanyx-custom fix)
+    if _supports_thinking(model):
+        payload["think"] = False
     return payload
 
 
