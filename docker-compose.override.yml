@@ -8,3 +8,5 @@ services:
       - D:/Github/Zyanyx/mcp/memory:/zyanyx-memory
       # Zyanyx dispatcher MCP server (Zyanyx delegates jobs to specialists).
       - D:/Github/Zyanyx/mcp/dispatch:/zyanyx-dispatch
+      # Obsidian knowledge vault, read/written by Zyanyx via the filesystem MCP.
+      - D:/ZyanyxVault:/zyanyx-vault
