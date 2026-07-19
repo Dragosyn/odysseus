@@ -411,8 +411,9 @@ class ToolIndex:
                    "assign this", "hand off", "hand this to", "your team",
                    "the team", "your agents", "your specialists", "the specialist",
                    "your researcher", "the researcher", "have researcher",
-                   "your coder", "the coder", "have coder",
-                   "your scribe", "the scribe", "have scribe",
+                   "your researchers", "the researchers",
+                   "your coder", "the coder", "have coder", "your coders",
+                   "your scribe", "the scribe", "have scribe", "your scribes",
                    "researcher look", "researcher find", "coder write",
                    "list agents", "which agents", "what agents"}):
             {"mcp__zdispatch__assign_job", "mcp__zdispatch__list_agents"},

@@ -2781,6 +2781,23 @@ async def stream_agent_loop(
                 )
                 tool_idx = None
                 _relevant_tools = set(ALWAYS_AVAILABLE)
+                # zyanyx-custom: keyword hints are pure regex and need no
+                # embedding index — apply them on the cold-start fallback too,
+                # so explicit intents ("delegate to your researcher…") still
+                # surface their tools right after a container restart.
+                try:
+                    from src.tool_index import ToolIndex as _TI
+                    import re as _kwre
+                    _ql = (_retrieval_query or "").lower()
+                    if _ql:
+                        for _kws, _tools in _TI._KEYWORD_HINTS.items():
+                            if any(_kwre.search(rf"\b{_kwre.escape(_kw)}\b", _ql) for _kw in _kws):
+                                _relevant_tools |= set(_tools)
+                        logger.info(
+                            "[tool-rag] Fallback + keyword hints -> %d tools", len(_relevant_tools)
+                        )
+                except Exception:
+                    pass
             if tool_idx:
                 if mcp_mgr:
                     try:
