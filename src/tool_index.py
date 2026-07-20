@@ -417,7 +417,7 @@ class ToolIndex:
                    "open spotify", "open steam", "open discord", "open explorer",
                    "type into", "press the key", "keyboard shortcut"}):
             {"mcp__zdesktop__list_windows", "mcp__zdesktop__focus_window",
-             "mcp__zdesktop__open_app", "mcp__zdesktop__open_path",
+             "mcp__zdesktop__open_app", "mcp__zdesktop__launch_app", "mcp__zdesktop__open_path",
              "mcp__zdesktop__screenshot", "mcp__zdesktop__type_text",
              "mcp__zdesktop__press_keys"},
         # Zyanyx dispatcher — delegate a job to a specialist agent (researcher /
