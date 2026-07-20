@@ -403,6 +403,23 @@ class ToolIndex:
                    "different model", "compare answers", "compare models",
                    "have model"}):
             {"chat_with_model", "ask_teacher", "list_models"},
+        # Zyanyx desktop control — the HOST-side zyanyx-desktop MCP (see/act on
+        # the Windows desktop). Force-included: 'ui' domain queries otherwise
+        # surface only the dashboard's ui_control and the model claims it can't
+        # touch the PC (zyanyx-custom).
+        frozenset({"what windows", "which windows", "open windows",
+                   "windows open", "windows are open", "windows do i have",
+                   "on my screen", "my screen", "my desktop", "on the desktop",
+                   "on my pc", "on my computer", "screenshot",
+                   "take a screenshot", "capture the screen", "focus window",
+                   "focus the window", "switch to window", "open the app",
+                   "launch", "open notepad", "open chrome", "open obsidian",
+                   "open spotify", "open steam", "open discord", "open explorer",
+                   "type into", "press the key", "keyboard shortcut"}):
+            {"mcp__zdesktop__list_windows", "mcp__zdesktop__focus_window",
+             "mcp__zdesktop__open_app", "mcp__zdesktop__open_path",
+             "mcp__zdesktop__screenshot", "mcp__zdesktop__type_text",
+             "mcp__zdesktop__press_keys"},
         # Zyanyx dispatcher — delegate a job to a specialist agent (researcher /
         # scribe / coder) via the zyanyx-dispatch MCP server. Force-included:
         # these rank below Odysseus's native research/vault tools in embedding
