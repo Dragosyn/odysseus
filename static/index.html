@@ -956,7 +956,7 @@
     </div>
   </nav>
 
-  <main class="chat-container welcome-active" id="chat-container" aria-label="Chat area" aria-busy="false">
+  <main class="chat-container welcome-active zyanyx-orb-only" id="chat-container" aria-label="Chat area" aria-busy="false">
     <!-- Persistent page heading for assistive tech. Visually hidden so it
          never affects layout, but always present inside the main landmark
          (the sidebar that shows the visible brand is hidden off-canvas on
@@ -2526,12 +2526,11 @@
       var t = e.target && e.target.closest ? e.target.closest('.list-item[data-session-id]') : null;
       if (t) exitOrb();
     });
-    // Default landing: show the orb by itself on a genuine fresh open (a new tab).
-    // A same-tab reload keeps the flag, so it doesn't cover a chat you returned to.
-    if (!sessionStorage.getItem('zyanyx-orb-shown')) {
-      sessionStorage.setItem('zyanyx-orb-shown', '1');
-      setTimeout(enterOrb, 0);
-    }
+    // Home = the orb, on EVERY load (open OR refresh) — user: "whenever i refresh
+    // it brings me back here [a chat]" → land on the orb instead of reopening the
+    // last conversation (the URL hash / lastSessionId would otherwise pin it).
+    // Selecting a conversation in the sidebar or New Chat leaves the orb.
+    setTimeout(enterOrb, 0);
   })();
 </script>
 </body>
