@@ -40449,40 +40449,26 @@ body.theme-frosted .modal {
   .compare-pane { min-height: 60dvh; }
 }
 
-/* ── Zyanyx memory sphere as the home screen (zyanyx-custom) ───────────────
-   The orb sits in the TOP region of the home screen and the chat box sits
-   directly BELOW it (user, 2026-07-24: "make the chat box below the orb"), all
-   inside localhost:7000 — no separate page. Shown only on the empty / new-chat
-   state (.chat-container.welcome-active); starting a real conversation removes
-   that class and the orb + this layout disappear. */
+/* ── Zyanyx memory orb: the "orb-only" home (zyanyx-custom) ────────────────
+   The DEFAULT landing view is the memory orb BY ITSELF — no chat box (user,
+   2026-07-24: "change my default to the orb without the chat box"). It's a
+   distinct state from New Chat: toggled by `.zyanyx-orb-only` on #chat-container
+   (added on fresh open / the "Zyanyx Orb" item, removed by New Chat or picking a
+   conversation). New Chat keeps the app's stock layout — no orb — so the two are
+   no longer the same. The orb iframe is hidden everywhere else. */
 .zyanyx-sphere-home { display: none; }
-.chat-container.welcome-active .zyanyx-sphere-home {
+.chat-container.zyanyx-orb-only .zyanyx-sphere-home {
   display: block;
-  flex: 0 0 auto;         /* in-flow at the top, below the top bar */
+  position: absolute;
+  inset: 0;               /* fill the chat pane — the sidebar stays for nav */
   width: 100%;
-  height: 54vh;
+  height: 100%;
   border: 0;
   background: #060a12;    /* matches the sphere page — no flash while loading */
+  z-index: 15;            /* over the top bar, composer, greeting */
 }
-/* The empty message log would stretch (flex:1) and shove the composer to the
-   bottom; collapse it so the chat box sits right under the orb. */
-.chat-container.welcome-active .chat-history { flex: 0 0 auto; min-height: 0; }
-/* Chat box: centered, directly beneath the orb (drop the old 30vh float). */
-.chat-container.welcome-active .chat-input-bar {
-  margin: 2.4vh auto 0;
-  max-width: 760px;
-  width: 100%;
-  position: relative;
-  z-index: 2;
-}
-/* The orb carries its own "ZYANYX" wordmark + tagline, so hide the duplicate
-   greeting text. Keep the Nobody-mode toggle reachable by dropping the greeting
-   block to the bottom of the screen, clear of the orb and the chat box. */
-.chat-container.welcome-active #welcome-screen {
-  top: auto;
-  bottom: 14px;
-  transform: translateX(-50%);
-}
-.chat-container.welcome-active #welcome-screen .welcome-name,
-.chat-container.welcome-active #welcome-screen .welcome-sub,
-.chat-container.welcome-active #welcome-screen .welcome-tip { display: none; }
+/* Orb-only hides all the chat chrome so it's just the orb. */
+.chat-container.zyanyx-orb-only .chat-top-bar,
+.chat-container.zyanyx-orb-only .chat-input-bar,
+.chat-container.zyanyx-orb-only #welcome-screen,
+.chat-container.zyanyx-orb-only .chat-history { display: none !important; }
