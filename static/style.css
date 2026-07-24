@@ -40448,3 +40448,27 @@ body.theme-frosted .modal {
   .compare-grid[data-cols] { grid-template-columns: 1fr !important; overflow-y: auto; }
   .compare-pane { min-height: 60dvh; }
 }
+
+/* ── Zyanyx memory sphere as the home screen (zyanyx-custom) ───────────────
+   The sphere IS the landing view. Its iframe (#zyanyx-sphere-home) is shown
+   only on the empty / new-chat state — .chat-container carries `welcome-active`
+   then — full-bleed behind the greeting overlay and the composer, and it hides
+   itself the instant a conversation starts (welcome-active is removed). The
+   greeting overlay keeps pointer-events:none, so drag / scroll reach the sphere. */
+.zyanyx-sphere-home { display: none; }
+.chat-container.welcome-active .zyanyx-sphere-home {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  z-index: 0;             /* under the greeting + composer, over the pane bg */
+  background: #060a12;    /* matches the sphere page — no flash while loading */
+}
+/* Keep the top bar and the composer clickable above the sphere. */
+.chat-container.welcome-active .chat-top-bar,
+.chat-container.welcome-active .chat-input-bar { position: relative; z-index: 2; }
+/* The sphere renders its own "ZYANYX" wordmark — drop the duplicate greeting
+   wordmark so the home screen reads as a single object. */
+.chat-container.welcome-active #welcome-screen .welcome-name { display: none; }

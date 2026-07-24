@@ -120,7 +120,9 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
                 "img-src 'self' data: blob: https:; "
                 "media-src 'self' blob:; "
                 "connect-src 'self'; "
-                "frame-src 'self'; "
+                # zyanyx-custom: the home screen embeds the Zyanyx memory sphere,
+                # served by the host desktop MCP at localhost:8765, in an iframe.
+                "frame-src 'self' http://localhost:8765; "
                 "frame-ancestors 'none'"
             )
         return response
