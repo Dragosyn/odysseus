@@ -718,15 +718,14 @@
         <svg class="sidebar-action-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="10" cy="10" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
         <span class="grow" style="position:relative;left:-1px;">Search</span>
       </div>
-      <!-- zyanyx-custom: opens the 3D memory sphere fullscreen in its own tab
-           (served by the host desktop MCP at :8765). A real <a> — the strict CSP
-           (script-src has no 'unsafe-inline') blocks inline onclick handlers, so
-           an anchor is the only thing that reliably opens. The sphere is also the
-           home screen (embedded above); this is the immersive, chrome-free view. -->
-      <a class="list-item" id="sidebar-orb-btn" href="http://localhost:8765/sphere" target="_blank" rel="noopener" title="Open the Zyanyx memory sphere fullscreen" style="text-decoration:none;color:inherit;">
+      <!-- zyanyx-custom: returns to the orb home WITHIN localhost:7000 — the
+           New Chat / welcome state renders the embedded sphere, so no separate
+           page is opened. Wired in a nonce'd script near </body> (the strict CSP
+           blocks inline onclick), where it triggers the New Chat action. -->
+      <div class="list-item" id="sidebar-orb-btn" title="Go to the Zyanyx orb" role="button" tabindex="0">
         <svg class="sidebar-action-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg>
         <span class="grow" style="position:relative;left:-1px;">Zyanyx Orb</span>
-      </a>
+      </div>
       <!-- Assistant sidebar entry removed — its log + settings live inside
            the Tasks modal (Activity + Settings tabs). The backend
            assistant session is still maintained for log_to_assistant()
@@ -2502,5 +2501,19 @@
 <script type="module" src="/static/js/init.js"></script>
 <script type="module" src="/static/js/a11y.js"></script>
 <script nonce="{{CSP_NONCE}}">if('serviceWorker' in navigator){navigator.serviceWorker.register('/static/sw.js').catch(()=>{});}</script>
+<script nonce="{{CSP_NONCE}}">
+  // zyanyx-custom: "Zyanyx Orb" sidebar item returns to the orb home WITHIN
+  // localhost:7000. The New Chat / welcome state renders the embedded sphere, so
+  // triggering New Chat shows the orb without leaving the dashboard. Inline
+  // onclick is blocked by the strict CSP (no script-src 'unsafe-inline'), so the
+  // handler lives here.
+  (function () {
+    var orb = document.getElementById('sidebar-orb-btn');
+    if (!orb) return;
+    var go = function (e) { e.preventDefault(); var nc = document.getElementById('sidebar-new-chat-btn'); if (nc) nc.click(); };
+    orb.addEventListener('click', go);
+    orb.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') go(e); });
+  })();
+</script>
 </body>
 </html>
