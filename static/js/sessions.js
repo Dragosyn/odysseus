@@ -1652,6 +1652,15 @@ export async function loadSessions() {
     }
     const hasPendingChat = !!_pendingChat;
     let targetId = null;
+    // zyanyx-custom: the memory orb IS the home screen. On a genuine fresh open
+    // of Zyanyx (a NEW tab — sessionStorage has no 'ody-session-active' yet),
+    // land on the orb (the New Chat / welcome state) instead of auto-restoring
+    // the last conversation. Past chats stay one click away in the sidebar. A
+    // same-tab reload (F5 / a server restart) keeps sessionStorage set, so it
+    // still restores the last session and never shadows an in-progress chat
+    // (the exact case the comment further down warns about). Deep links (hash)
+    // and an already-current session are still honoured.
+    const _firstOpen = !sessionStorage.getItem('ody-session-active');
     if (hasPendingChat) {
       // A model was picked and the UI is showing a fresh New Chat, but the
       // session is not created until the first message. Background stream
@@ -1665,13 +1674,13 @@ export async function loadSessions() {
     } else if (currentSessionId) {
       // Session was just created but may not be in the list yet — keep it
       targetId = currentSessionId;
-    } else if (savedId && activeSessions.some(s => s.id === savedId)) {
+    } else if (savedId && activeSessions.some(s => s.id === savedId) && !_firstOpen) {
       targetId = savedId;
-    } else if (!_skipAutoSelect && _realSessions.length > 0) {
+    } else if (!_skipAutoSelect && !_firstOpen && _realSessions.length > 0) {
       // Most-recent NON-transient session — skip Assistant / Tasks so the
       // auto-firing assistant doesn't become the apparent default chat.
       targetId = _realSessions[0].id;
-    } else if (!_skipAutoSelect && activeSessions.length > 0) {
+    } else if (!_skipAutoSelect && !_firstOpen && activeSessions.length > 0) {
       // Only transient sessions exist (brand-new account) — fall through to
       // the original behaviour so we don't leave the user with nothing.
       targetId = activeSessions[0].id;
