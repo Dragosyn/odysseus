@@ -40448,3 +40448,7 @@ body.theme-frosted .modal {
   .compare-grid[data-cols] { grid-template-columns: 1fr !important; overflow-y: auto; }
   .compare-pane { min-height: 60dvh; }
 }
+
+/* Zyanyx orb — embedded reactive HUD on the welcome screen (zyanyx-custom) */
+.zyanyx-orb { width: 240px; height: 240px; display: block; margin: 0 auto 6px; pointer-events: none; }
+@media (max-height: 660px) { .zyanyx-orb { width: 168px; height: 168px; } }
