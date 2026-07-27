@@ -40505,3 +40505,23 @@ body.theme-frosted .modal {
 .chat-container.zyanyx-orb-only .chat-input-bar,
 .chat-container.zyanyx-orb-only #welcome-screen,
 .chat-container.zyanyx-orb-only .chat-history { display: none !important; }
+
+/* The "Zyanyx Orb" sidebar entry is the signature item — give it a quiet glow
+   so it reads as the heart of the app, not just another row. */
+#sidebar-orb-btn {
+  border: 1px solid rgba(41, 182, 255, .30);
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(41,182,255,.10), rgba(41,182,255,.02));
+  box-shadow: 0 0 10px rgba(41, 182, 255, .12), inset 0 0 12px rgba(41,182,255,.05);
+  margin-bottom: 4px;
+  transition: box-shadow .25s ease, border-color .25s ease;
+}
+#sidebar-orb-btn:hover {
+  border-color: rgba(41, 182, 255, .65);
+  box-shadow: 0 0 18px rgba(41, 182, 255, .35), inset 0 0 14px rgba(41,182,255,.10);
+}
+#sidebar-orb-btn .sidebar-action-icon {
+  color: #29b6ff;
+  opacity: 1 !important;
+  filter: drop-shadow(0 0 4px rgba(41,182,255,.7));
+}

@@ -162,13 +162,19 @@ class AITTSManager {
     }
 
     _findBrowserVoice() {
-        if (!this.browserVoice) return null;
         const voices = window.speechSynthesis.getVoices();
+        // zyanyx-custom: Zyanyx speaks with a BRITISH voice by default (user
+        // request). An explicitly configured voice still wins; otherwise prefer
+        // an en-GB voice (Google UK on Chrome, then any UK voice).
+        const british =
+            voices.find(v => /en[-_]GB/i.test(v.lang) && /google/i.test(v.name)) ||
+            voices.find(v => /en[-_]GB/i.test(v.lang)) || null;
+        if (!this.browserVoice) return british;
         const target = this.browserVoice.toLowerCase();
         // Try exact match first, then partial
         return voices.find(v => v.name.toLowerCase() === target) ||
                voices.find(v => v.name.toLowerCase().includes(target)) ||
-               null;
+               british;
     }
 
     async play(text) {

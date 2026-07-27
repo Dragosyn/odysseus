@@ -2531,6 +2531,22 @@
     // last conversation (the URL hash / lastSessionId would otherwise pin it).
     // Selecting a conversation in the sidebar or New Chat leaves the orb.
     setTimeout(enterOrb, 0);
+
+    // State bridge: push the dashboard's REAL activity into the orb iframe so it
+    // moves with Zyanyx — listening (mic recording), thinking (generating),
+    // speaking (browser TTS). The iframe is cross-origin (:8765), so postMessage
+    // is the channel; the sphere verifies the origin.
+    var sphere = document.getElementById('zyanyx-sphere-home');
+    if (sphere) setInterval(function () {
+      var state = 'idle';
+      try {
+        if (window.speechSynthesis && speechSynthesis.speaking) state = 'speaking';
+        else if (document.querySelector('.recording')) state = 'listening';
+        else if (document.querySelector('#chat-history [aria-busy="true"], .chat-container[aria-busy="true"], #chat-history[aria-busy="true"]')) state = 'thinking';
+      } catch (e) {}
+      if (sphere.contentWindow) sphere.contentWindow.postMessage(
+        { type: 'zyanyx-state', state: state }, 'http://localhost:8765');
+    }, 500);
   })();
 </script>
 </body>
