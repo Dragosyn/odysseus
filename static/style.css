@@ -40525,3 +40525,65 @@ body.theme-frosted .modal {
   opacity: 1 !important;
   filter: drop-shadow(0 0 4px rgba(41,182,255,.7));
 }
+
+/* ═════════ Zyanyx minimal (zyanyx-custom, 2026-07-27 redesign) ═════════
+   Whole-dashboard minimal pass: calmer chrome, thin borders, one radius,
+   no decorative shadows — and the nav (icon rail + sidebar) auto-hides
+   completely, revealed by resting the cursor on the left edge. The orb
+   screens get the entire viewport. Shapes only where possible; colors stay
+   var-driven so the Theme picker keeps working. */
+
+/* -- flatten the chrome ------------------------------------------------ */
+.sidebar, .icon-rail {
+  box-shadow: none;
+  border-right: 1px solid color-mix(in srgb, var(--fg) 8%, transparent);
+  border-top: 0; border-bottom: 0; border-left: 0;
+}
+.chat-input-bar {
+  box-shadow: none;
+  border: 1px solid color-mix(in srgb, var(--fg) 12%, transparent);
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.list-item { border-radius: 8px; }
+.modal-content, .export-dropdown-menu {
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--fg) 10%, transparent);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, .45);
+}
+.chat-top-bar { box-shadow: none; }
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--fg) 16%, transparent);
+  border-radius: 8px; border: 2px solid transparent; background-clip: content-box;
+}
+::-webkit-scrollbar-track { background: transparent; }
+
+/* -- auto-hidden navigation (desktop only; mobile keeps stock behavior) - */
+@media (min-width: 769px) {
+  .icon-rail {
+    position: fixed; left: 0; top: 0; bottom: 0; z-index: 600;
+    height: 100dvh;
+    transform: translateX(-110%);
+    transition: transform .22s ease;
+  }
+  .sidebar {
+    position: fixed; left: 48px; top: 0; bottom: 0; z-index: 600;
+    height: 100dvh;
+    transform: translateX(-140%);
+    transition: transform .22s ease, width 0.25s ease;
+    background: color-mix(in srgb, var(--panel) 92%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  body.zyanyx-nav-open .icon-rail,
+  body.zyanyx-nav-open .sidebar { transform: none; }
+  /* invisible strip that summons the nav */
+  #zyanyx-edge { position: fixed; left: 0; top: 0; bottom: 0; width: 14px; z-index: 599; }
+  /* resize handles make no sense on an overlay nav */
+  .sidebar-resize-handle, .rail-resize-handle { display: none; }
+}
+@media (max-width: 768.98px) {
+  #zyanyx-edge { display: none; }
+}
